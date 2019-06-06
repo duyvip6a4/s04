@@ -1,10 +1,13 @@
 var arr = new Array(4); // answer for the game
 var player = new Array(4); // answer of player
+var second // couting playing time in second
+var minute // couting playing time in minute
+var startingtime; // save startingtime
 
 // var for position of the first two number
-var x1 = Math.random(0, 3)*4;
-var y1 = Math.random(0, 3)*4;
-var x2 = Math.random(0, 3)*4;
+var x1 = Math.random(0, 3) * 4;
+var y1 = Math.random(0, 3) * 4;
+var x2 = Math.random(0, 3) * 4;
 var y2 = Math.random(0, 3) * 4;
 
 // location of the block which is being choosed (in the board)
@@ -124,8 +127,7 @@ function ans() {
         text('Retry', 500, 593);
         page = 1;
         // player can choose to retry or not
-        if (posix >= 400 && posix <= 600 && posiy >= 550 && posiy <= 600)
-        {
+        if (posix >= 400 && posix <= 600 && posiy >= 550 && posiy <= 600) {
             console.log(posix);
             console.log(posiy);
             posix = 0;
@@ -199,6 +201,21 @@ function draw() {
     if (page == 0 || page == 3) {
 
         background(220);
+        var millisecond = millis() - startingtime;
+        second = millisecond / 1000;
+        second = second.toFixed(0);
+        minute = 0;
+        while (second >= 60) {
+            second -= 60;
+            minute++;
+        }
+        textSize(35);
+        if (second >= 10) {
+            text('Time: ' + minute + ':' + second, 800, 270);
+        }
+        else {
+            text('Time: ' + minute + ':0' + second, 800, 270);
+        }
         page = 0;
         lock = 1;
         stroke(0);
@@ -218,7 +235,7 @@ function draw() {
         textSize(18);
         noStroke();
         fill('black');
-        text('1.A1 = C2 + C3 hoặc A1 = C2 - C3\n2.A2 = A1 + D2\n3.A3 = C3 : B2\n4.A4 = A3 + B3 hoặc A4 = B2 + B3\n5.B1 = A2 + C1 hoặc B1 = A2 - C1\n6.B2 = C3/3\n7.B3 = C3 + D4\n8.B4 = A4 - A3 hoặc B4 = A4 - A3\n9.C1 = A4/3\n10.C2 = B4 + C1\n11.C3 có thể là 11 hoặc 12\n12.C4 = A1 : A3\n13.D1 = B2 + C3\n14.D2 = C4 + D3 hoặc D2 = C4 - D3\n15.D3 = C1/3\n16.D4 = A3 x D1', 660, 310, 325);
+        text('1.A1 = C2 + C3 hoặc A1 = C2 - C3\n2.A2 = A1 + D2\n3.A3 = C3 : B2\n4.A4 = A3 + B3 hoặc A4 = B2 + B3\n5.B1 = A2 + C1 hoặc B1 = A2 - C1\n6.B2 = C3/3\n7.B3 = C3 + D4\n8.B4 = A4 - A3 hoặc B4 = A4 - D4\n9.C1 = A4/3\n10.C2 = B4 + C1\n11.C3 có thể là 11 hoặc 12\n12.C4 = A1 : A3\n13.D1 = B2 + C3\n14.D2 = C4 + D3 hoặc D2 = C4 - D3\n15.D3 = C1/3\n16.D4 = A3 x D1', 660, 310, 325);
         textAlign(CENTER, BASELINE);
         textSize(50);
         // print out the block which contain the same number with other block
@@ -230,7 +247,7 @@ function draw() {
                             continue;
                         }
                         else {
-                            if (player[i][j] == player[k][u]&&player[i][j]!=0) {
+                            if (player[i][j] == player[k][u] && player[i][j] != 0) {
                                 fill('red');
                                 rect(200 + i * 100, 300 + j * 100, 100, 100);
                             }
@@ -260,7 +277,7 @@ function draw() {
         text('C', 150, 566);
         text('D', 150, 666);
         for (let i = 0; i < 4; i++) {
-            text(i+1, 250 + i * 100, 266);
+            text(i + 1, 250 + i * 100, 266);
         }
         fill('blue');
         // print out the player answer on the board
@@ -313,6 +330,7 @@ function draw() {
             posix = 0;
             posiy = 0;
             page = 0;
+            startingtime = millis();
         }
     }
     else {
